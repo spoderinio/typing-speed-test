@@ -23,6 +23,7 @@ def choose_language():
         T = tk.Text(window, wrap=tk.WORD, height=17, width=100, font="Ubuntu")
         T.grid(row=3, column=0)
         T.insert(tkinter.END, word_list_en)
+        T.config(state=tk.DISABLED)
 
     else:
         global word_list_bg
@@ -34,6 +35,7 @@ def choose_language():
         T = tk.Text(window, wrap=tk.WORD, height=17, width=100, font="Ubuntu")
         T.grid(row=3, column=0)
         T.insert(tkinter.END, word_list_bg)
+        T.config(state=tk.DISABLED)
 
 
 def test_score():
