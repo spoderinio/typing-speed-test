@@ -43,6 +43,10 @@ def test_score():
     print(len(usr_score))
 
 
+def start_test():
+    usr_entry.focus_set()
+
+
 window = tk.Tk()
 window.title("Typing Speed Test")
 window.minsize(300, 720)
@@ -64,11 +68,12 @@ select_button = tk.Button(window, text="Select",
 
 usr_entry = tk.Text(window, wrap=tk.WORD, height=17,
                     width=100, font="Ubuntu", bg="#E6EFBF")
-usr_entry.grid(row=4,
-               column=0)
+usr_entry.grid(row=5, column=0)
 
 check_button = tk.Button(window, text="Check score",
-                         command=test_score, bg="#E6EFBF").grid(row=5, column=0)
+                         command=test_score, bg="#E6EFBF").grid(row=6, column=0)
 
+start_button = tk.Button(window, text="Start",
+                         command=start_test, bg="#E6EFBF").grid(row=4, column=0)
 
 window.mainloop()
