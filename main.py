@@ -16,32 +16,28 @@ f_bg.close()
 def choose_language():
     if clicked.get() == "English":
         global word_list_en
-        word_list_en = []
+        word_list = []
         for word in wlen:
-            word_list_en.append(word.replace("\n", ""))
-        random.shuffle(word_list_en, random.random)
-        T = tk.Text(window, wrap=tk.WORD, height=17, width=100, font="Ubuntu")
-        T.grid(row=3, column=0)
-        T.insert(tkinter.END, word_list_en)
-        T.config(state=tk.DISABLED)
+            word_list.append(word.replace("\n", ""))
 
     else:
         global word_list_bg
-        word_list_bg = []
+        word_list = []
         for word in wlbg:
-            word_list_bg.append(word.replace("\n", ""))
-        word_list_bg = list(dict.fromkeys(word_list_bg))
-        random.shuffle(word_list_bg, random.random)
-        T = tk.Text(window, wrap=tk.WORD, height=17, width=100, font="Ubuntu")
-        T.grid(row=3, column=0)
-        T.insert(tkinter.END, word_list_bg)
-        T.config(state=tk.DISABLED)
+            word_list.append(word.replace("\n", ""))
+        word_list = list(dict.fromkeys(word_list))
+    random.shuffle(word_list, random.random)
+    T = tk.Text(window, wrap=tk.WORD, height=17, width=100, font="Ubuntu")
+    T.grid(row=3, column=0)
+    T.insert(tkinter.END, word_list)
+    T.config(state=tk.DISABLED)
+    return word_list
 
 
 def test_score():
     usr_words = usr_entry.get("1.0", tk.END)
     usr_words = usr_words.split()
-    usr_score = set(usr_words).intersection(word_list_bg)
+    usr_score = set(usr_words).intersection(choose_language())
     print(len(usr_score))
 
 
