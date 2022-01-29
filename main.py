@@ -1,4 +1,3 @@
-from msilib.schema import Font
 import tkinter as tk
 import random
 import tkinter
@@ -6,6 +5,9 @@ from tkinter.ttk import Label
 from PIL import ImageTk, Image
 import math
 
+from flask_login import user_accessed
+
+TEST_TIME = 60
 
 f = open("words_en.txt", "r")
 wlen = f.readlines()
@@ -19,6 +21,7 @@ f_bg.close()
 ###################### FUNTIONALLITY #####################
 
 def choose_language():
+
     if clicked.get() == "English":
         global word_list_en
         word_list = []
@@ -45,8 +48,23 @@ def test_score():
 
 
 def start_test():
+    usr_entry.config(state="normal")
+    usr_entry.delete("1.0", tk.END)
     usr_entry.focus_set()
-    count_down(60)
+    count_down(TEST_TIME)
+
+
+def restart():
+    usr_entry.config(state="normal")
+    usr_entry.delete("1.0", tk.END)
+    start_words.config(state="normal")
+    start_words.delete("1.0", tk.END)
+    usr_words = []
+    usr_entry.insert(tk.END, "Type here/Пишете тук")
+    score_lable.configure(text=f"Score: 0")
+    timer_label.configure(text=f"Timer:0.00")
+    window.after_cancel(timer)
+    print(len(usr_words))
 
 ###################### COUNTDOWN MECHANISM #########################
 
@@ -55,6 +73,7 @@ def count_down(count):
     global timer_label
     count_min = math.floor(count / 60)
     count_sec = count % 60
+
     if count_sec < 10:
         count_sec = f"0{count_sec}"
 
@@ -89,6 +108,7 @@ option.config(bg="#E6EFBF")
 option["highlightthickness"] = 0
 option.grid(row=2, column=0)
 
+
 start_words = tk.Text(window, wrap=tk.WORD, height=10, width=80, font="Ubuntu")
 start_words.grid(row=3, column=0, rowspan=2, columnspan=2)
 
@@ -110,6 +130,8 @@ score_lable.grid(row=6, column=2, padx=(0, 20))
 
 usr_entry = tk.Text(window, wrap=tk.WORD, height=10,
                     width=80, font="Ubuntu", bg="#E6EFBF")
+usr_entry.insert(tk.END, "Type here/Пишете тук")
+usr_entry.config(state=tk.DISABLED)
 usr_entry.grid(row=5, column=0, rowspan=2, columnspan=2,
                padx=(10, 10), pady=(10, 10))
 
@@ -123,6 +145,9 @@ start_button = tk.Button(window, text="Start",
 
 select_button = tk.Button(window, text="Select",
                           command=choose_language, bg="#E6EFBF").grid(row=2, column=1)
+
+restart_button = tk.Button(window, text="Restart",
+                           command=restart, bg="#E6EFBF").grid(row=2, column=2)
 
 
 window.mainloop()
