@@ -4,7 +4,7 @@ import random
 import tkinter
 from tkinter.ttk import Label
 from PIL import ImageTk, Image
-from pyparsing import col
+import math
 
 
 f = open("words_en.txt", "r")
@@ -16,7 +16,7 @@ wlbg = f_bg.readlines()
 f_bg.close()
 
 
-# FUNTIONALLITY #####################e
+###################### FUNTIONALLITY #####################
 
 def choose_language():
     if clicked.get() == "English":
@@ -41,18 +41,38 @@ def test_score():
     usr_words = usr_entry.get("1.0", tk.END)
     usr_words = usr_words.split()
     usr_score = set(usr_words).intersection(choose_language())
-    print(len(usr_score))
+    score_lable.configure(text=f"Score:{len(usr_score)}")
 
 
 def start_test():
     usr_entry.focus_set()
+    count_down(60)
+
+###################### COUNTDOWN MECHANISM #########################
+
+
+def count_down(count):
+    global timer_label
+    count_min = math.floor(count / 60)
+    count_sec = count % 60
+    if count_sec < 10:
+        count_sec = f"0{count_sec}"
+
+    # window.itemconfig(timer_label, text=f"{count_min}:{count_sec}")
+    timer_label.configure(text=f"Timer:{count_min}:{count_sec}")
+
+    if count > 0:
+        global timer
+        timer = window.after(1000, count_down, count - 1)
+    else:
+        usr_entry.config(state=tk.DISABLED)
 
 
 ###################### USR INTERFACE ###############################
 
 window = tk.Tk()
 window.title("Typing Speed Test")
-window.minsize(300, 720)
+window.minsize(300, 400)
 window.config(bg="#4AC3BE")
 
 img = ImageTk.PhotoImage(Image.open("logo.PNG"))
@@ -77,8 +97,12 @@ start_words.grid(row=3, column=0, rowspan=2, columnspan=2)
 choose_lang_lable = tk.Label(
     text="Choose language/Изберете език", background="#4AC3BE").grid(row=1, column=0)
 
-timer_label = tk.Label(window, text=f"Timer:",
-                       background="#4AC3BE").grid(row=4, column=2, padx=(0, 20))
+timer_label = tk.Label(window, text="Timer:",
+                       background="#4AC3BE")
+timer_label.grid(row=4, column=2, padx=(0, 20))
+
+score_lable = tk.Label(window, text="Score: ", background="#4AC3BE")
+score_lable.grid(row=6, column=2, padx=(0, 20))
 
 
 ################ ENTRYS ########################
