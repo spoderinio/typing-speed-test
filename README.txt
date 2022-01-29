@@ -1,0 +1,1 @@
+A program that counts the number of words you type per minute. The rules are simpe, start from left to right and from the top to the bottom of the text and see how you do. 
